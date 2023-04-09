@@ -10,31 +10,26 @@
 #include <graphics.h>
 #include <math.h>
 using namespace std;
-void Linea(int x1, int y1, int x2, int y2, int color = RED)
-{
+void Linea(int x1, int y1, int x2, int y2, int color = RED){
     int dx = abs(x2 - x1);
     int dy = abs(y2 - y1);
     int sx = (x1 < x2) ? 1 : -1;
     int sy = (y1 < y2) ? 1 : -1;
     int err = dx - dy;
-    while (x1 != x2 || y1 != y2)
-    {
+    while (x1 != x2 || y1 != y2){
         putpixel(x1, y1, color);
         int e2 = 2 * err;
-        if (e2 > -dy)
-        {
+        if (e2 > -dy){
             err -= dy;
             x1 += sx;
         }
-        if (e2 < dx)
-        {
+        if (e2 < dx){
             err += dx;
             y1 += sy;
         }
     }
 }
-void LineaDiscontinua(int x1, int y1, int x2, int y2)
-{
+void LineaDiscontinua(int x1, int y1, int x2, int y2){
     const int dashSize = 5; // longitud de la seccion discontinua
     int dx = abs(x2 - x1);
     int dy = abs(y2 - y1);
@@ -42,39 +37,31 @@ void LineaDiscontinua(int x1, int y1, int x2, int y2)
     int sy = (y1 < y2) ? 1 : -1;
     int err = dx - dy;
     int count = 0;
-    while (true)
-    {
-        if (count == dashSize)
-        {
+    while (true){
+        if (count == dashSize){
             count = 0;
         }
-        else if (count < dashSize / 2)
-        {
+        else if (count < dashSize / 2){
             putpixel(x1, y1, RED); // Dibuja un punto blanco
         }
         x1 += sx;
         err += 2 * dy;
-        if (err > 0)
-        {
+        if (err > 0){
             y1 += sy;
             err -= 2 * dx;
         }
-        if ((sx > 0 && x1 > x2) || (sx < 0 && x1 < x2))
-        {
+        if ((sx > 0 && x1 > x2) || (sx < 0 && x1 < x2)){
             break;
         }
-        if ((sy > 0 && y1 > y2) || (sy < 0 && y1 < y2))
-        {
+        if ((sy > 0 && y1 > y2) || (sy < 0 && y1 < y2)){
             break;
         }
         count++;
     }
 }
-void Elipse(int x, int y, int stangle, int endangle, int xradius, int yradius, int color = WHITE)
-{
+void Elipse(int x, int y, int stangle, int endangle, int xradius, int yradius, int color = WHITE){
     float angle, step;
-    if (stangle > endangle)
-    {
+    if (stangle > endangle{
         endangle += 360;
     }
     step = (float)1 / sqrt(xradius * xradius + yradius * yradius);
@@ -86,14 +73,12 @@ void Elipse(int x, int y, int stangle, int endangle, int xradius, int yradius, i
         putpixel(x_point, y_point, color); // Puedes cambiar el color aqui
     }
 }
-void ElipseRelleno(int x, int y, int stangle, int endangle, int xradius, int yradius, int color)
-{
+void ElipseRelleno(int x, int y, int stangle, int endangle, int xradius, int yradius, int color){
     setfillstyle(SOLID_FILL, color);
     Elipse(x, y, stangle, endangle, xradius, yradius);
     fillellipse(x, y, xradius, yradius);
 }
-void Rectangulo(int left, int top, int right, int bottom, int color = RED)
-{
+void Rectangulo(int left, int top, int right, int bottom, int color = RED){
 
     // Draw the lines of the Rectangulo
     Linea(left, top, right, top);       // Top line
@@ -102,8 +87,7 @@ void Rectangulo(int left, int top, int right, int bottom, int color = RED)
     Linea(left, bottom, left, top);     // Left line
                                         // Fill the Rectangulo
 }
-void RectanguloRelleno(int left, int top, int right, int bottom, int color = RED)
-{
+void RectanguloRelleno(int left, int top, int right, int bottom, int color = RED){
     Rectangulo(left, top, right, bottom);
     for (int y = top + 1; y < bottom; y++)
     {
@@ -116,8 +100,7 @@ void RectanguloRelleno(int left, int top, int right, int bottom, int color = RED
         }
     }
 }
-void TrianguloEquilatero(int x, int y, int lado)
-{
+void TrianguloEquilatero(int x, int y, int lado){
     double altura = sqrt(3) / 2 * lado;
 
     int x1 = x - lado / 2;
@@ -133,8 +116,7 @@ void TrianguloEquilatero(int x, int y, int lado)
     Linea(x2, y2, x3, y3);
     Linea(x3, y3, x1, y1);
 }
-void TrianguloEquilateroRelleno(int x, int y, int lado, int color)
-{
+void TrianguloEquilateroRelleno(int x, int y, int lado, int color){
     double altura = sqrt(3) / 2 * lado;
 
     int x1 = x - lado / 2;
@@ -157,8 +139,7 @@ void TrianguloEquilateroRelleno(int x, int y, int lado, int color)
     fillpoly(4, poly);
 }
 
-void TrianguloIsosceles(int x, int y, int base, int altura)
-{
+void TrianguloIsosceles(int x, int y, int base, int altura){
     int x1 = x - (base / 2);
     int y1 = y + (altura / 2);
     int x2 = x;
@@ -170,8 +151,7 @@ void TrianguloIsosceles(int x, int y, int base, int altura)
     Linea(x2, y2, x3, y3);
     Linea(x3, y3, x1, y1);
 }
-void TrianguloIsoscelesRelleno(int x, int y, int base, int altura, int color)
-{
+void TrianguloIsoscelesRelleno(int x, int y, int base, int altura, int color){
     int x1 = x - (base / 2);
     int y1 = y + (altura / 2);
     int x2 = x;
@@ -192,8 +172,7 @@ void TrianguloIsoscelesRelleno(int x, int y, int base, int altura, int color)
     TrianguloIsosceles(x, y, base, altura); // Dibujar la linea del triangulo despues de pintar
 }
 
-void TrianguloRectangulo(int x, int y, int base, int altura, int color = WHITE)
-{
+void TrianguloRectangulo(int x, int y, int base, int altura, int color = WHITE){
     int x2 = x;
     int y2 = y - altura;
     // For each row in the triangle, set the color of the pixels in the row
@@ -210,8 +189,7 @@ void TrianguloRectangulo(int x, int y, int base, int altura, int color = WHITE)
         }
     }
 }
-void TrianguloRectanguloRelleno(int x, int y, int base, int altura, int color)
-{
+void TrianguloRectanguloRelleno(int x, int y, int base, int altura, int color){
     TrianguloRectangulo(x, y, base, altura); // Dibujar el triángulo rectángulo
     int x2 = x;
     int y2 = y - altura;
@@ -230,8 +208,7 @@ void TrianguloRectanguloRelleno(int x, int y, int base, int altura, int color)
     }
 }
 
-void Hexagono(int x, int y, int r, int color)
-{
+void Hexagono(int x, int y, int r, int color){
     int i;
     int ox, oy, px, py;
 
@@ -251,8 +228,7 @@ void Hexagono(int x, int y, int r, int color)
     }
     Linea(px, py, x + r, y);
 }
-void HexagonoRelleno(int x, int y, int r, int color)
-{
+void HexagonoRelleno(int x, int y, int r, int color){
     setcolor(color);
     setfillstyle(SOLID_FILL, color); // establece el estilo para el relleno
     int i;
@@ -276,12 +252,10 @@ void HexagonoRelleno(int x, int y, int r, int color)
     floodfill(x + r / 2, y + r / 2, color); // Rellena el hexagono con el color
 }
 
-void Circulo(int x, int y, int r, int color = RED)
-{
+void Circulo(int x, int y, int r, int color = RED){
     int xi, yi, xf, yf;
     float theta = 0.0;
-    while (theta <= 2 * M_PI)
-    {
+    while (theta <= 2 * M_PI){
         xi = round(r * cos(theta) + x);
         yi = round(r * sin(theta) + y);
         theta += 0.01;
@@ -290,41 +264,33 @@ void Circulo(int x, int y, int r, int color = RED)
         Linea(xi, yi, xf, yf, color);
     }
 }
-void CirculoRelleno(int x, int y, int r, int color)
-{
+void CirculoRelleno(int x, int y, int r, int color){
     setcolor(color);
     setfillstyle(SOLID_FILL, color); // Establece el estilo para el relleno
     // Fill the circle by drawing horizontal lines from top to bottom
-    for (int i = y - r; i <= y + r; i++)
-    {
-        for (int j = x - r; j <= x + r; j++)
-        {
-            if (pow(j - x, 2) + pow(i - y, 2) <= pow(r, 2))
-            {
+    for (int i = y - r; i <= y + r; i++){
+        for (int j = x - r; j <= x + r; j++){
+            if (pow(j - x, 2) + pow(i - y, 2) <= pow(r, 2)){
                 putpixel(j, i, color);
             }
         }
     }
 }
 
-void Pentagono(int x[], int y[], int n)
-{
+void Pentagono(int x[], int y[], int n){
     // Draw the pentagon using line()
     int i;
-    for (i = 0; i < n - 1; i++)
-    {
+    for (i = 0; i < n - 1; i++){
         Linea(x[i], y[i], x[i + 1], y[i + 1]);
     }
     Linea(x[n - 1], y[n - 1], x[0], y[0]);
 }
-void PentagonoRelleno(int x[], int y[], int n, int color)
-{
+void PentagonoRelleno(int x[], int y[], int n, int color){
     // Draw and fill the pentagon
     setcolor(color);
     setfillstyle(SOLID_FILL, color);
     int vertices[n * 2];
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++){
         vertices[i * 2] = x[i];
         vertices[i * 2 + 1] = y[i];
     }
@@ -333,8 +299,7 @@ void PentagonoRelleno(int x[], int y[], int n, int color)
     fillpoly(n, vertices);
 }
 
-void Punto(int x, int y, int size, int color)
-{
+void Punto(int x, int y, int size, int color){
     // Set color and size of point
     setcolor(color);
     setfillstyle(SOLID_FILL, color);
@@ -344,31 +309,26 @@ void Punto(int x, int y, int size, int color)
     Circulo(x, y, 0, color);
     floodfill(x, y, color);
 }
-void Cuadrado(int x, int y, int size)
-{
+void Cuadrado(int x, int y, int size){
     Rectangulo(x, y, x + size, y + size);
 }
-void CuadradoRelleno(int x, int y, int size, int color)
-{
+void CuadradoRelleno(int x, int y, int size, int color){
 
     RectanguloRelleno(x, y, x + size, y + size, BLUE);
 }
 
-void Heptagono(int x, int y, int radius)
-{
+void Heptagono(int x, int y, int radius){
     int n = 7; // numero de lados del heptagono
     float angle = 360.0 / n;
     float theta = -90.0;
     int x0 = 0, y0 = 0;
     int x1, y1;
 
-    for (int i = 0; i <= n; i++)
-    {
+    for (int i = 0; i <= n; i++){
         // Calcular los puntos final e inicial para la linea del heptagono
         x1 = round(radius * cos(theta * M_PI / 180.0));
         y1 = round(radius * sin(theta * M_PI / 180.0));
-        if (i > 0)
-        {
+        if (i > 0){
             Linea(x + x0, y + y0, x + x1, y + y1);
         }
         x0 = x1;
@@ -378,8 +338,7 @@ void Heptagono(int x, int y, int radius)
     }
 }
 // Definir la función de rellenar el heptágono
-void HeptagonoRelleno(int x, int y, int radius, int color)
-{
+void HeptagonoRelleno(int x, int y, int radius, int color){
 
     Heptagono(x, y, radius);
     // Establecer el color del relleno
@@ -392,8 +351,7 @@ void HeptagonoRelleno(int x, int y, int radius, int color)
     float theta = -90.0;
     int x0 = 0, y0 = 0;
     int x1, y1;
-    for (int i = 0; i <= n; i++)
-    {
+    for (int i = 0; i <= n; i++){
         x1 = round(radius * cos(theta * M_PI / 180.0));
         y1 = round(radius * sin(theta * M_PI / 180.0));
         puntos[i * 2] = x + x1;
@@ -405,21 +363,18 @@ void HeptagonoRelleno(int x, int y, int radius, int color)
     fillpoly(n, puntos);
 }
 
-void Octagono(int x, int y, int lado)
-{
+void Octagono(int x, int y, int lado){
     int n = 8; // número de lados del octagono
     float angle = 360.0 / n;
     float theta = -45.0 + angle / 2;
     int x0 = 0, y0 = 0;
     int x1, y1;
 
-    for (int i = 0; i <= n; i++)
-    {
+    for (int i = 0; i <= n; i++){
         // Calcular los puntos final e inicial para la linea del octágono
         x1 = round(lado / 2 * cos(theta * M_PI / 180.0));
         y1 = round(lado / 2 * sin(theta * M_PI / 180.0));
-        if (i > 0)
-        {
+        if (i > 0){
             // Dibujar la linea del octagono
             Linea(x + x0, y + y0, x + x1, y + y1);
         }
@@ -432,8 +387,7 @@ void Octagono(int x, int y, int lado)
     Linea(x + x0, y + y0, x + x1, y + y1);
 }
 
-void OctagonoRelleno(int x, int y, int lado, int color)
-{
+void OctagonoRelleno(int x, int y, int lado, int color){
     Octagono(x, y, lado);
 
     // Establecer el color del relleno
@@ -446,8 +400,7 @@ void OctagonoRelleno(int x, int y, int lado, int color)
     float theta = -45.0 + angle / 2;
     int x0 = 0, y0 = 0;
     int x1, y1;
-    for (int i = 0; i <= n; i++)
-    {
+    for (int i = 0; i <= n; i++){
         x1 = round(lado / 2 * cos(theta * M_PI / 180.0));
         y1 = round(lado / 2 * sin(theta * M_PI / 180.0));
         puntos[i * 2] = x + x1;
@@ -459,22 +412,18 @@ void OctagonoRelleno(int x, int y, int lado, int color)
     fillpoly(n, puntos);
 }
 
-void Rellenar(int x, int y, int colorRelleno, int colorBorde)
-{
+void Rellenar(int x, int y, int colorRelleno, int colorBorde){
     /*25% abajo derecha*/
     int xR = x;
     int yR = y;
     int colorPixelActual = -1;
-    for (; xR < 1200; xR = xR + 1)
-    {
+    for (; xR < 1200; xR = xR + 1){
         colorPixelActual = getpixel(xR, yR);
-        if (colorPixelActual == colorBorde)
-        {
+        if (colorPixelActual == colorBorde){
             xR = x;
             yR = yR + 1;
             colorPixelActual = getpixel(xR, yR);
-            if (colorPixelActual == colorBorde)
-            {
+            if (colorPixelActual == colorBorde){
                 break;
             }
         }
@@ -484,16 +433,13 @@ void Rellenar(int x, int y, int colorRelleno, int colorBorde)
     xR = x;
     yR = y;
     colorPixelActual = -1;
-    for (; xR >= 0; xR = xR - 1)
-    {
+    for (; xR >= 0; xR = xR - 1){
         colorPixelActual = getpixel(xR, yR);
-        if (colorPixelActual == colorBorde)
-        {
+        if (colorPixelActual == colorBorde){
             xR = x;
             yR = yR + 1;
             colorPixelActual = getpixel(xR, yR);
-            if (colorPixelActual == colorBorde)
-            {
+            if (colorPixelActual == colorBorde){
                 break;
             }
         }
@@ -503,16 +449,13 @@ void Rellenar(int x, int y, int colorRelleno, int colorBorde)
     xR = x;
     yR = y;
     colorPixelActual = -1;
-    for (; xR >= 0; xR = xR - 1)
-    {
+    for (; xR >= 0; xR = xR - 1){
         colorPixelActual = getpixel(xR, yR);
-        if (colorPixelActual == colorBorde)
-        {
+        if (colorPixelActual == colorBorde){
             xR = x;
             yR = yR - 1;
             colorPixelActual = getpixel(xR, yR);
-            if (colorPixelActual == colorBorde)
-            {
+            if (colorPixelActual == colorBorde){
                 break;
             }
         }
@@ -522,16 +465,13 @@ void Rellenar(int x, int y, int colorRelleno, int colorBorde)
     xR = x;
     yR = y;
     colorPixelActual = -1;
-    for (; xR < 1200; xR = xR + 1)
-    {
+    for (; xR < 1200; xR = xR + 1){
         colorPixelActual = getpixel(xR, yR);
-        if (colorPixelActual == colorBorde)
-        {
+        if (colorPixelActual == colorBorde){
             xR = x;
             yR = yR - 1;
             colorPixelActual = getpixel(xR, yR);
-            if (colorPixelActual == colorBorde)
-            {
+            if (colorPixelActual == colorBorde){
                 break;
             }
         }
@@ -544,8 +484,7 @@ void Rellenar(int x, int y, int colorRelleno, int colorBorde)
  *
  * @param percent The percentage of the screen area to be cleared.
  */
-void LimpiarArea(int percent)
-{
+void LimpiarArea(int percent){
     int width = getmaxx();
     int height = getmaxy();
     int x1 = 0;
@@ -556,8 +495,7 @@ void LimpiarArea(int percent)
     setfillstyle(SOLID_FILL, getbkcolor());
     bar(x1, y1, x2, y2);
 }
-void LimpiarPantalla()
-{
+void LimpiarPantalla(){
     cleardevice();
 }
 int main()
